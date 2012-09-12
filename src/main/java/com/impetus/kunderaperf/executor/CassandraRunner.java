@@ -82,6 +82,7 @@ public class CassandraRunner
 
         String[] clients = { "kundera", "pelops", "hector" };
         String runType[] = { "b", "c", "cb" };
+        String operations = "r{userName|=|Amresh,userName|>|Am}";
 
         Map<String, String> keySpaceMapper = new HashMap<String, String>(3);
         keySpaceMapper.put("pelops", "PelopsKeyspace");
@@ -102,7 +103,7 @@ public class CassandraRunner
                         try
                         {
                             createKeysapce(keySpaceMapper.get(client));
-                            KunderaPerformanceRunner.main(new String[] { new String(b[i]), client, type });
+                            KunderaPerformanceRunner.main(new String[] {new String(b[i]), client, type,  operations});
                             dropKeyspace(keySpaceMapper.get(client));
                             // stopCassandraServer();
                         }
@@ -121,7 +122,7 @@ public class CassandraRunner
                         {
                             // startCassandraServer(args[2]);
                             createKeysapce(keySpaceMapper.get(client));
-                            KunderaPerformanceRunner.main(new String[] { "1", client, type, new String(c[i]) });
+                            KunderaPerformanceRunner.main(new String[] { "1", client, type, new String(c[i]), operations});
                             dropKeyspace(keySpaceMapper.get(client));
                             // stopCassandraServer();
                         }
@@ -141,7 +142,7 @@ public class CassandraRunner
                         {
                             // startCassandraServer(args[2]);
                             createKeysapce(keySpaceMapper.get(client));
-                            KunderaPerformanceRunner.main(new String[] { "1000", client, type, new String(cb[i]) });
+                            KunderaPerformanceRunner.main(new String[] { "1000", client, type, new String(cb[i]), operations});
                             dropKeyspace(keySpaceMapper.get(client));
                             // stopCassandraServer();
                         }

@@ -41,20 +41,20 @@ public class KunderaPerformanceRunner
         KunderaPerformanceRunner runner = new KunderaPerformanceRunner();
         if(args[2].equalsIgnoreCase("c"))
         {
-            runner.run(Integer.parseInt(args[0]),args[1], false, Integer.parseInt(args[3]));
+            runner.run(Integer.parseInt(args[0]),args[1], false, Integer.parseInt(args[3]), args[4]);
         }else if(args[2].equalsIgnoreCase("cb"))
         {
-            runner.bulkLoadOnConcurrentThreads(Integer.parseInt(args[0]),args[1],Integer.parseInt(args[3]));
+            runner.bulkLoadOnConcurrentThreads(Integer.parseInt(args[0]),args[1],Integer.parseInt(args[3]), args[4]);
             
         } else if(args[2].equalsIgnoreCase("b"))
         {
-            runner.onBulkLoad(Integer.parseInt(args[0]),args[1]);
+            runner.onBulkLoad(Integer.parseInt(args[0]), args[1], args[3]);
         }
 //        runner.run(Integer.parseInt(args[0]),args[1]);
 //        runner.close();
     }
 
-    public void run(final int noOfRecords, String client, final boolean isBulkLoad, int noOfThreads)
+    public void run(final int noOfRecords, String client, final boolean isBulkLoad, int noOfThreads, String operations)
     {
         try
         {
@@ -121,23 +121,45 @@ public class KunderaPerformanceRunner
             }
         }
     }
-    public void onBulkLoad(int rangeValue, String client)
+    public void onBulkLoad(int rangeValue, String client, String operations)
     {
+        //Bulk write
         init(client);
         System.out.println("<<<<<<On Max Single Insert>>>>>>");
+        List<UserDTO> users = prepareDataSet(rangeValue);
         long t1 = System.currentTimeMillis();
-        userDao.insertUsers(prepareDataSet(rangeValue), true);
+        userDao.insertUsers(users, true);
         long t2 = System.currentTimeMillis();
-        System.out.println("Kundera Performance: MaxinsertUsers(" + 1 + "), total number of records(" + rangeValue + ")>>>\t" + (t2 - t1) + " For: " + client);
-        
-        profiler.put(client+":"+"b"+":"+rangeValue+":"+"1", (t2-t1));
+        System.out.println("Kundera Performance: MaxinsertUsers(" + 1 + "), total number of records(" + rangeValue + ")>>>\t" + (t2 - t1) + " For: " + client);        
+        profiler.put(client+":"+"b"+":"+rangeValue+":"+"1" + ":w", (t2-t1));
         close();
+        
+        //Bulk Read
+        if(operations != null && operations.startsWith("r"))
+        {            
+            //Find by ID
+            init(client);
+            System.out.println("<<<<<<On Max Single Read >>>>>>");                        
+            long t3 = System.currentTimeMillis();
+            userDao.findUserById("userId_1");
+            long t4 = System.currentTimeMillis();
+            System.out.println("Kundera Performance: MaxinsertUsers(" + 1 + "), total number of records(" + rangeValue + ")>>>\t" + (t2 - t1) + " For: " + client);        
+            profiler.put(client+":"+"b"+":"+rangeValue+":"+"1" + ":r", (t4-t3));
+            close();
+            
+            //Select All Query
+            
+        }
+        
+        
+        
+        
     }
 
     
-    public void bulkLoadOnConcurrentThreads(int rangeValue, String client, int noOfRecs)
+    public void bulkLoadOnConcurrentThreads(int rangeValue, String client, int noOfRecs, String operations)
     {
-        run(rangeValue,client,true,noOfRecs);
+        run(rangeValue,client,true,noOfRecs, operations);
     }
     
     

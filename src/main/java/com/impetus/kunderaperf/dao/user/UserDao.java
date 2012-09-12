@@ -35,6 +35,10 @@ public interface UserDao {
 	public void updateUser(UserDTO userDTO);
 	
 	public void findUserById(String userId);
+
+        public void findAllUsers();
+
+        public void findUsersByIds(String[] userIds);
 	
 	public void findUserByUserName(String userName);
 	

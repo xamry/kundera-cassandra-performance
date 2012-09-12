@@ -26,79 +26,112 @@ import com.impetus.kunderaperf.dto.UserDTO;
  * @author amresh.singh
  * 
  */
-public class UserDaoKunderaImpl extends KunderaBaseDao implements UserDao {
+public class UserDaoKunderaImpl extends KunderaBaseDao implements UserDao
+{
 
-	@Override
-	public void init() {
-		startup();
-	}
+    @Override
+    public void init()
+    {
+        startup();
+    }
 
-	@Override
-	public void insertUsers(List<UserDTO> users, boolean isBulk) {
-		// System.out.println("Inserting users");
-		// long t1 = System.currentTimeMillis();
+    @Override
+    public void insertUsers(List<UserDTO> users, boolean isBulk)
+    {
+        // System.out.println("Inserting users");
+        // long t1 = System.currentTimeMillis();
 
-		if (isBulk) {
-			EntityManager em = emf.createEntityManager();
+        if (isBulk)
+        {
+            EntityManager em = emf.createEntityManager();
 
-			// int counter = 0;
-			for (int i = 0; i < users.size(); i++) {
-				UserDTO user = users.get(i);
-				if (i % 4000 == 0) {
-					em.clear();
-				}
-				em.persist(user);
-			}
-			em.close();
-			em = null;
-		} else {
-			for (int i = 0; i < users.size(); i++) {
-				UserDTO user = users.get(i);
-				insertUser(user);
-			}
-		}
-		users.clear();
-		users = null;
-		// long t2 = System.currentTimeMillis();
-		// System.out.println("Kundera Performance: insertUsers(" + users.size()
-		// + ")>>>\t" + (t2 - t1));
-	}
+            // int counter = 0;
+            for (int i = 0; i < users.size(); i++)
+            {
+                UserDTO user = users.get(i);
+                if (i % 4000 == 0)
+                {
+                    em.clear();
+                }
+                em.persist(user);
+            }
+            em.close();
+            em = null;
+        }
+        else
+        {
+            for (int i = 0; i < users.size(); i++)
+            {
+                UserDTO user = users.get(i);
+                insertUser(user);
+            }
+        }
+        users.clear();
+        users = null;
+        // long t2 = System.currentTimeMillis();
+        // System.out.println("Kundera Performance: insertUsers(" + users.size()
+        // + ")>>>\t" + (t2 - t1));
+    }
 
-	/**
-	 * Inserts user table object.
-	 * 
-	 * @param user
-	 *            user object.
-	 */
-	public void insertUser(UserDTO user) {
-		// init();
-		// System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"+emf +
-		// ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		EntityManager em = emf.createEntityManager();
-		em.persist(user);
-		em.close();
-		em = null;
-	}
+    /**
+     * Inserts user table object.
+     * 
+     * @param user
+     *            user object.
+     */
+    public void insertUser(UserDTO user)
+    {
+        // init();
+        // System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"+emf +
+        // ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        EntityManager em = emf.createEntityManager();
+        em.persist(user);
+        em.close();
+        em = null;
+    }
 
-	@Override
-	public void updateUser(UserDTO userDTO) {
-	}
+    @Override
+    public void updateUser(UserDTO userDTO)
+    {
+    }
 
-	@Override
-	public void findUserById(String userId) {
-	}
+    @Override
+    public void findUserById(String userId)
+    {
+        EntityManager em = emf.createEntityManager();
+        UserDTO user = em.find(UserDTO.class, userId);
+        em.close();
+    }
 
-	@Override
-	public void findUserByUserName(String userName) {
-	}
+    @Override
+    public void findUsersByIds(String[] userIds)
+    {       
+        
+        for(String userId : userIds)
+        {
+            findUserById(userId);
+        }        
+    }   
 
-	@Override
-	public void deleteUser(String userId) {
-	}
+    @Override
+    public void findAllUsers()
+    {
+    }
 
-	@Override
-	public void cleanup() {
-		System.out.println("<<<<<<< Shututdown called>>>>>");
-		shutdown();
-	}
+    @Override
+    public void findUserByUserName(String userName)
+    {
+    }
+
+    @Override
+    public void deleteUser(String userId)
+    {
+    }
+
+    @Override
+    public void cleanup()
+    {
+        System.out.println("<<<<<<< Shututdown called>>>>>");
+        shutdown();
+    }
 }
