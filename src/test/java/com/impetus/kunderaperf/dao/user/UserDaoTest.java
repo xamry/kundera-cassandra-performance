@@ -17,18 +17,9 @@ package com.impetus.kunderaperf.dao.user;
  ******************************************************************************/
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import junit.framework.TestCase;
-
-import com.googlecode.jeeunit.concurrent.Concurrent;
-import com.googlecode.jeeunit.concurrent.ConcurrentRunner;
-import com.googlecode.jeeunit.concurrent.Repeat;
-import com.impetus.kunderaperf.dto.UserDTO;
 import com.impetus.kunderaperf.executor.CassandraRunner;
 
 /**

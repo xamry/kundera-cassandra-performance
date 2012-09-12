@@ -21,12 +21,9 @@ import java.util.List;
 
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ConsistencyLevel;
-import org.scale7.cassandra.pelops.Cluster;
-import org.scale7.cassandra.pelops.IConnection;
 import org.scale7.cassandra.pelops.Mutator;
 import org.scale7.cassandra.pelops.Pelops;
 import org.scale7.cassandra.pelops.exceptions.PelopsException;
-
 
 import com.impetus.kunderaperf.dao.PelopsBaseDao;
 import com.impetus.kunderaperf.dto.UserDTO;

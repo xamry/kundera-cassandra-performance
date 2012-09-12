@@ -40,6 +40,8 @@ import org.apache.thrift.transport.TTransportException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import com.impetus.kunderaperf.Constants;
+
 /**
  * The Class RuntimeProcessExmp.
  * 
@@ -47,10 +49,14 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
  * @version 1.0
  */
 public class CassandraRunner
-{
+{   
+
     private static Runtime runtime = Runtime.getRuntime();
+
     private static String kundera_pelops_delta;
+
     private static String kundera_hector_delta;
+
     /**
      * The main method.
      * 
@@ -58,96 +64,99 @@ public class CassandraRunner
      *            the arguments
      * @throws IOException
      *             Signals that an I/O exception has occurred.
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     public static void main(String[] argss) throws IOException, InterruptedException
     {
-//    	postBuild();
+        // postBuild();
         int i;
-//        String b[] = { "1"/*, "1000", "4000", "40000", "100000", "1000000"*/ };
-//        String c[] = { "1"/*, "10", "100", "1000", "10000", "40000", "50000", "100000"*/ };
-//        String cb[] = { "10"/*, "100", "1000" */};
+        String b[] = { "1"/*, "1000", "4000", "40000", "100000", "1000000"*/
+         };
+         String c[] = { "1"/*, "10", "100", "1000", "10000", "40000", "50000",
+         "100000"*/ };
+         String cb[] = { "10"/*, "100", "1000" */};
 
-   	  String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
-      String c[] = { "1", "10", "100", "1000", "10000", "40000", "50000", "100000" };
-      String cb[] = { "10", "100", "1000" };
+        /*String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
+        String c[] = { "1", "10", "100", "1000", "10000", "40000", "50000", "100000" };
+        String cb[] = { "10", "100", "1000" };*/
 
-        String[] clients = {"kundera", "pelops","hector"};
-        String runType[] = {"b","c","cb"};
-        
+        String[] clients = { "kundera", "pelops", "hector" };
+        String runType[] = { "b", "c", "cb" };
+
         Map<String, String> keySpaceMapper = new HashMap<String, String>(3);
         keySpaceMapper.put("pelops", "PelopsKeyspace");
         keySpaceMapper.put("hector", "HectorKeyspace");
         keySpaceMapper.put("kundera", "KunderaKeyspace");
 
-//        startCassandraServer("/home/impadmin/vivek/apache-cassandra-1.0.6/bin/cassandra");
-        startCassandraServer("/root/software/apache-cassandra-1.0.6/bin/cassandra");
-        for(String type : runType)
+        // startCassandraServer("/home/impadmin/vivek/apache-cassandra-1.0.6/bin/cassandra");
+        startCassandraServer(Constants.CASSANDRA_HOME + "/bin/cassandra");
+        for (String type : runType)
         {
-       			for (String client : clients) {
-       			
-        if (type.equalsIgnoreCase("b"))
-        {
-            for (i = 0; i < b.length; i++)
+            for (String client : clients)
             {
-                try
+
+                if (type.equalsIgnoreCase("b"))
                 {
-                    createKeysapce(keySpaceMapper.get(client));
-                    KunderaPerformanceRunner.main(new String[] { new String(b[i]), client, type });
-                    dropKeyspace(keySpaceMapper.get(client));
-//                    stopCassandraServer();
+                    for (i = 0; i < b.length; i++)
+                    {
+                        try
+                        {
+                            createKeysapce(keySpaceMapper.get(client));
+                            KunderaPerformanceRunner.main(new String[] { new String(b[i]), client, type });
+                            dropKeyspace(keySpaceMapper.get(client));
+                            // stopCassandraServer();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-                catch (Exception e)
+                else if (type.equalsIgnoreCase("c"))
                 {
-                    e.printStackTrace();
+                    for (i = 0; i < c.length; i++)
+                    {
+
+                        try
+                        {
+                            // startCassandraServer(args[2]);
+                            createKeysapce(keySpaceMapper.get(client));
+                            KunderaPerformanceRunner.main(new String[] { "1", client, type, new String(c[i]) });
+                            dropKeyspace(keySpaceMapper.get(client));
+                            // stopCassandraServer();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                else if (type.equalsIgnoreCase("cb"))
+                {
+
+                    for (i = 0; i < cb.length; i++)
+                    {
+
+                        try
+                        {
+                            // startCassandraServer(args[2]);
+                            createKeysapce(keySpaceMapper.get(client));
+                            KunderaPerformanceRunner.main(new String[] { "1000", client, type, new String(cb[i]) });
+                            dropKeyspace(keySpaceMapper.get(client));
+                            // stopCassandraServer();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println("please give valid options ie b/c/cb");
                 }
             }
         }
-        else if (type.equalsIgnoreCase("c"))
-        {
-            for (i = 0; i < c.length; i++)
-            {
-
-                try
-                {
-//                    startCassandraServer(args[2]);
-                    createKeysapce(keySpaceMapper.get(client));
-                    KunderaPerformanceRunner.main(new String[] { "1",  client, type , new String(c[i]) });
-                    dropKeyspace(keySpaceMapper.get(client));
-//                    stopCassandraServer();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-        else if (type.equalsIgnoreCase("cb"))
-        {
-
-            for (i = 0; i < cb.length; i++)
-            {
-
-                try
-                {
-//                    startCassandraServer(args[2]);
-                	createKeysapce(keySpaceMapper.get(client));
-                    KunderaPerformanceRunner.main(new String[] { "1000",  client, type , new String(cb[i]) });
-                    dropKeyspace(keySpaceMapper.get(client));
-//                    stopCassandraServer();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-        else
-        {
-            System.out.println("please give valid options ie b/c/cb");
-        }
-       			}
-			}
         onGenerateDelta(KunderaPerformanceRunner.profiler);
         stopCassandraServer();
     }
@@ -167,11 +176,11 @@ public class CassandraRunner
     private static void startCassandraServer(String args) throws IOException, InterruptedException
     {
         System.out.println("Starting casssandra server..");
-        runtime.exec("rm -rf /var/lib/cassandra/*").waitFor();
-        runtime.exec("mkdir /var/lib/cassandra/").waitFor();
-        runtime.exec("chmod 777 -R /var/lib/cassandra/").waitFor();
+        runtime.exec("sudo rm -rf /var/lib/cassandra/*").waitFor();
+        runtime.exec("sudo mkdir /var/lib/cassandra/").waitFor();
+        runtime.exec("sudo chmod 777 -R /var/lib/cassandra/").waitFor();
         runtime.exec(args).waitFor();
-       TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(5);
     }
 
     /**
@@ -233,99 +242,103 @@ public class CassandraRunner
 
     private static void createKeysapce(String keyspace)
     {
+        if (cassandra_client == null)
+        {
+            initiateClient();
+        }
+        KsDef ksDef;
+        try
+        {
+            ksDef = cassandra_client.describe_keyspace(keyspace);
+            dropKeyspace(keyspace);
+        }
+        catch (NotFoundException e)
+        {
+            List<CfDef> cfDefs = new ArrayList<CfDef>();
+            CfDef cfDef = new CfDef(keyspace, "User");
+            List<ColumnDef> columnDefs = new ArrayList<ColumnDef>();
+            ColumnDef name = new ColumnDef();
+            name.setName("user_name".getBytes());
+            name.setIndex_type(IndexType.KEYS);
+
+            ColumnDef password = new ColumnDef();
+            password.setName("password".getBytes());
+            password.setIndex_type(IndexType.KEYS);
+
+            ColumnDef relation = new ColumnDef();
+            relation.setName("relation".getBytes());
+            relation.setIndex_type(IndexType.KEYS);
+
+            cfDef.column_metadata = columnDefs;
+
+            cfDefs.add(cfDef);
+            ksDef = new KsDef(keyspace, "org.apache.cassandra.locator.SimpleStrategy", cfDefs);
+            //ksDef.setReplication_factor(1);
+            Map<String, String> strategyOptions = new HashMap<String, String>();
+            strategyOptions.put("replication_factor", "1");
+            
+            ksDef.setStrategy_options(strategyOptions);
             if (cassandra_client == null)
             {
                 initiateClient();
             }
-            KsDef ksDef;
+
             try
             {
-                ksDef = cassandra_client.describe_keyspace(keyspace);
-                dropKeyspace(keyspace);
+                cassandra_client.system_add_keyspace(ksDef);
             }
-            catch (NotFoundException e)
+            catch (InvalidRequestException e1)
             {
-                List<CfDef> cfDefs = new ArrayList<CfDef>();
-                CfDef cfDef = new CfDef(keyspace, "User");
-                List<ColumnDef> columnDefs = new ArrayList<ColumnDef>();
-                ColumnDef name = new ColumnDef();
-                name.setName("user_name".getBytes());
-                name.setIndex_type(IndexType.KEYS);
-
-                ColumnDef password = new ColumnDef();
-                password.setName("password".getBytes());
-                password.setIndex_type(IndexType.KEYS);
-
-                ColumnDef relation = new ColumnDef();
-                relation.setName("relation".getBytes());
-                relation.setIndex_type(IndexType.KEYS);
-
-                cfDef.column_metadata = columnDefs;
-
-                cfDefs.add(cfDef);
-                ksDef = new KsDef(keyspace, "org.apache.cassandra.locator.SimpleStrategy", cfDefs);
-                ksDef.setReplication_factor(1);
-                if (cassandra_client == null)
-                {
-                    initiateClient();
-                }
-
-                try
-                {
-                    cassandra_client.system_add_keyspace(ksDef);
-                }
-                catch (InvalidRequestException e1)
-                {
-                    e1.printStackTrace();
-                }
-                catch (SchemaDisagreementException e1)
-                {
-                    e1.printStackTrace();
-                }
-                catch (TException e1)
-                {
-                    e1.printStackTrace();
-                }
+                e1.printStackTrace();
             }
-
-            catch (InvalidRequestException e)
+            catch (SchemaDisagreementException e1)
             {
-
-                e.printStackTrace();
+                e1.printStackTrace();
             }
-            catch (TException e)
+            catch (TException e1)
             {
-
-                e.printStackTrace();
+                e1.printStackTrace();
             }
+        }
+
+        catch (InvalidRequestException e)
+        {
+
+            e.printStackTrace();
+        }
+        catch (TException e)
+        {
+
+            e.printStackTrace();
+        }
     }
 
     private static void dropKeyspace(String keyspace)
     {
-   
-            if (cassandra_client == null)
-            {
-                initiateClient();
-            }
-            try
-            {
-                cassandra_client.system_drop_keyspace(keyspace);
-            }
-            catch (InvalidRequestException e)
-            {
 
-                e.printStackTrace();
-            }
-            catch (SchemaDisagreementException e)
-            {
+        if (cassandra_client == null)
+        {
+            initiateClient();
+        }
+        try
+        {
+            cassandra_client.system_drop_keyspace(keyspace);
+        }
+        catch (InvalidRequestException e)
+        {
 
-                e.printStackTrace();
-            }
-            catch (TException e)
-            {
+            e.printStackTrace();
+        }
+        catch (SchemaDisagreementException e)
+        {
 
-                e.printStackTrace();
-            }
+            e.printStackTrace();
+        }
+        catch (TException e)
+        {
+
+            e.printStackTrace();
+        }
     }
 
     private static void initiateClient()
@@ -358,144 +371,158 @@ public class CassandraRunner
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.smtp.port", "465");
+        // props.put("mail.smtp.port", "465");
         props.put("mail.smtp.host", host);
 
         JavaMailSenderImpl emailSender = new JavaMailSenderImpl();
         emailSender.setHost(host);
-//        emailSender.setPort(port);
+        // emailSender.setPort(port);
         emailSender.setUsername("vivek.mishra@impetus.co.in");
         emailSender.setPassword("Password~22");
         emailSender.setJavaMailProperties(props);
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(new String[]{"vivek.mishra@impetus.co.in","amresh.singh@impetus.co.in","kuldeep.mishra@impetus.co.in","vivek.shrivastava@impetus.co.in"});
+        mail.setTo(new String[] { "vivek.mishra@impetus.co.in", "amresh.singh@impetus.co.in",
+                "kuldeep.mishra@impetus.co.in", "vivek.shrivastava@impetus.co.in" });
         mail.setFrom("vivek.mishra@impetus.co.in");
 
-//        mail.se
+        // mail.se
         mail.setSubject("kundera-cassandra-performance Delta");
-//        String url = "http://localhost:8080/HealthTrip/activate/activate.action?token="+model.getToken();
-//        mail.setText("Thank you for registering with us, please confirm your activation by clicking link given below:"+"\n"
-//                + url);
-        
-        mail.setText("Kundera/Pelops Performance Delta ==>" + kundera_pelops_delta + "\n" + "Kundera/Hector Performance Delta ==>" + kundera_hector_delta);
+        // String url =
+        // "http://localhost:8080/HealthTrip/activate/activate.action?token="+model.getToken();
+        // mail.setText("Thank you for registering with us, please confirm your activation by clicking link given below:"+"\n"
+        // + url);
+
+        mail.setText("Kundera/Pelops Performance Delta ==>" + kundera_pelops_delta + "\n"
+                + "Kundera/Hector Performance Delta ==>" + kundera_hector_delta);
         emailSender.send(mail);
     }
 
-
     private static void onGenerateDelta(Map<String, Long> profiledData) throws FileNotFoundException, IOException
     {
-//  	  String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
-//      String c[] = { "1", "10", "100", "1000", "10000", "40000", "50000", "100000" };
-//      String cb[] = { "10", "100", "1000" };
+        // String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
+        // String c[] = { "1", "10", "100", "1000", "10000", "40000", "50000",
+        // "100000" };
+        // String cb[] = { "10", "100", "1000" };
 
-//        String b[] = { "1"/*, "1000", "4000", "40000", "100000", "1000000"*/ };
-//        String c[] = { "1"/*, "10", "100", "1000", "10000", "40000", "50000", "100000"*/ };
-//        String cb[] = { "10"/*, "100", "1000" */};
+        // String b[] = { "1"/*, "1000", "4000", "40000", "100000", "1000000"*/
+        // };
+        // String c[] = { "1"/*, "10", "100", "1000", "10000", "40000", "50000",
+        // "100000"*/ };
+        // String cb[] = { "10"/*, "100", "1000" */};
 
-	  String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
-      String c[] = { "1", "10", "100", "1000", "10000", "40000", "50000", "100000" };
-      String cb[] = { "10", "100", "1000" };
-        
-    	String fileName = "performance_cassandra" + new Date() + ".xls";
-       HSSFWorkbook workBook = new HSSFWorkbook();
-       workBook = generateDelta(b, profiledData, workBook, "Bulk", "b");
-       workBook = generateDelta(c, profiledData, workBook, "Concurrent", "c");
-       workBook = generateDelta(cb, profiledData, workBook, "Concurrent-Bulk", "cb");
-      
-		 FileOutputStream fos = null;
-	        try {
-	            fos = new FileOutputStream(new File(fileName));
-	            workBook.write(fos);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        } finally {
-	            if (fos != null) {
-	                try {
-	                    fos.flush();
-	                    fos.close();
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
-	        
-	        postBuild();
+        String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
+        String c[] = { "1", "10", "100", "1000", "10000", "40000", "50000", "100000" };
+        String cb[] = { "10", "100", "1000" };
+
+        String fileName = "performance_cassandra" + new Date() + ".xls";
+        HSSFWorkbook workBook = new HSSFWorkbook();
+        workBook = generateDelta(b, profiledData, workBook, "Bulk", "b");
+        workBook = generateDelta(c, profiledData, workBook, "Concurrent", "c");
+        workBook = generateDelta(cb, profiledData, workBook, "Concurrent-Bulk", "cb");
+
+        FileOutputStream fos = null;
+        try
+        {
+            fos = new FileOutputStream(new File(fileName));
+            workBook.write(fos);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (fos != null)
+            {
+                try
+                {
+                    fos.flush();
+                    fos.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        postBuild();
     }
-    private static  HSSFWorkbook generateDelta(String[] type, Map<String, Long> profiledData, HSSFWorkbook workBook, String sheetName, String keyType) throws FileNotFoundException, IOException
+
+    private static HSSFWorkbook generateDelta(String[] type, Map<String, Long> profiledData, HSSFWorkbook workBook,
+            String sheetName, String keyType) throws FileNotFoundException, IOException
     {
 
-//        String[] clients = {"pelops", "hector","kundera"};
-          String[] clients = {"kundera", "pelops","hector"};
+        // String[] clients = {"pelops", "hector","kundera"};
+        String[] clients = { "kundera", "pelops", "hector" };
 
         int count = 2;
-        HSSFSheet sheet = initSheet(workBook,sheetName);
+        HSSFSheet sheet = initSheet(workBook, sheetName);
         int nextRowCount = 2;
-		for (String t : type) 
-		{
-	        int intnoOfthreads = 1;
-	        String noOfRecord = t;
-	        // set on no of record and threads.
-	        
-	        if(keyType.equals("c"))
-	        {
-	        	intnoOfthreads = Integer.parseInt(t);
-	        	noOfRecord = 1+"";
-	        } else if(keyType.equals("cb"))
-	        {
-	        	intnoOfthreads = Integer.parseInt(t);
-	        	noOfRecord = 1000 + "";
-	        }
-	        
-	        
-	        String keySeperator = ":" + keyType; 
-			
-	        HSSFRow dataRow = sheet.createRow(nextRowCount);
-			HSSFCell noOfThreadCell = dataRow.createCell(0);
-			noOfThreadCell.setCellValue(intnoOfthreads);
-			HSSFCell noOfRecordsCell = dataRow.createCell(1);
-			noOfRecordsCell.setCellValue(noOfRecord);
-			
-			
-			int clientCnt=2;
-			
-			// iterate for earch client.
-			double[] cellValArr = new double[4];
-			int cnt=0;
-			for (String client : clients)
-			{
-				String key = client +keySeperator+ ":" + noOfRecord + ":" + intnoOfthreads;
-//				System.out.println(key);
-				Long timeTaken = profiledData.get(key);
-//				System.out.println(timeTaken);
-				HSSFCell clientCell = dataRow.createCell(clientCnt);
-				clientCell.setCellValue(timeTaken);
-				clientCnt++;
-				cellValArr[cnt++] = timeTaken;
-			}
+        for (String t : type)
+        {
+            int intnoOfthreads = 1;
+            String noOfRecord = t;
+            // set on no of record and threads.
 
-			// populate delta.
-			HSSFCell kundera_hector = dataRow.createCell(clientCnt++);
-			kundera_hector_delta = ((cellValArr[0]-cellValArr[2])/cellValArr[2]) * 100 +"%";
-			kundera_hector.setCellValue(((cellValArr[0]-cellValArr[2])/cellValArr[2]) * 100);
-			
-			HSSFCell kundera_pelops = dataRow.createCell(clientCnt);
-			kundera_pelops_delta = ((cellValArr[0]-cellValArr[1])/cellValArr[1]) * 100 + "%";
-			kundera_pelops.setCellValue(((cellValArr[0]-cellValArr[1])/cellValArr[1]) * 100);
-			count++;
-		}
-		
-		return workBook;
-		
-	}
+            if (keyType.equals("c"))
+            {
+                intnoOfthreads = Integer.parseInt(t);
+                noOfRecord = 1 + "";
+            }
+            else if (keyType.equals("cb"))
+            {
+                intnoOfthreads = Integer.parseInt(t);
+                noOfRecord = 1000 + "";
+            }
 
-    
-    private static HSSFSheet initSheet(HSSFWorkbook workbook, String sheetName) {
-		HSSFSheet sheet = workbook.createSheet(sheetName);
-        
+            String keySeperator = ":" + keyType;
+
+            HSSFRow dataRow = sheet.createRow(nextRowCount);
+            HSSFCell noOfThreadCell = dataRow.createCell(0);
+            noOfThreadCell.setCellValue(intnoOfthreads);
+            HSSFCell noOfRecordsCell = dataRow.createCell(1);
+            noOfRecordsCell.setCellValue(noOfRecord);
+
+            int clientCnt = 2;
+
+            // iterate for earch client.
+            double[] cellValArr = new double[4];
+            int cnt = 0;
+            for (String client : clients)
+            {
+                String key = client + keySeperator + ":" + noOfRecord + ":" + intnoOfthreads;
+                // System.out.println(key);
+                Long timeTaken = profiledData.get(key);
+                // System.out.println(timeTaken);
+                HSSFCell clientCell = dataRow.createCell(clientCnt);
+                clientCell.setCellValue(timeTaken);
+                clientCnt++;
+                cellValArr[cnt++] = timeTaken;
+            }
+
+            // populate delta.
+            HSSFCell kundera_hector = dataRow.createCell(clientCnt++);
+            kundera_hector_delta = ((cellValArr[0] - cellValArr[2]) / cellValArr[2]) * 100 + "%";
+            kundera_hector.setCellValue(((cellValArr[0] - cellValArr[2]) / cellValArr[2]) * 100);
+
+            HSSFCell kundera_pelops = dataRow.createCell(clientCnt);
+            kundera_pelops_delta = ((cellValArr[0] - cellValArr[1]) / cellValArr[1]) * 100 + "%";
+            kundera_pelops.setCellValue(((cellValArr[0] - cellValArr[1]) / cellValArr[1]) * 100);
+            count++;
+        }
+
+        return workBook;
+
+    }
+
+    private static HSSFSheet initSheet(HSSFWorkbook workbook, String sheetName)
+    {
+        HSSFSheet sheet = workbook.createSheet(sheetName);
+
         HSSFRow row0 = sheet.createRow(0);
         HSSFCell cell0 = row0.createCell(0);
         cell0.setCellValue("Performance Analysis:");
-
 
         HSSFRow row1 = sheet.createRow(1);
         HSSFCell cell1 = row1.createCell(0);
@@ -507,15 +534,15 @@ public class CassandraRunner
         HSSFCell cell4 = row1.createCell(3);
 
         cell4.setCellValue("Pelops");
-        
+
         HSSFCell cell5 = row1.createCell(4);
         cell5.setCellValue("Hector");
-        
+
         HSSFCell cell6 = row1.createCell(5);
         cell6.setCellValue("kundera-hector(%)");
 
         HSSFCell cell7 = row1.createCell(6);
         cell7.setCellValue("kundera-pelops(%)");
-		return sheet;
-	}
+        return sheet;
+    }
 }
