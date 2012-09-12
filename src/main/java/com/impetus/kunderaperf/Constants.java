@@ -16,11 +16,13 @@
 package com.impetus.kunderaperf;
 
 /**
- * <Prove description of functionality provided by this Type> 
+ * <Prove description of functionality provided by this Type>
+ * 
  * @author amresh.singh
  */
 public class Constants
 {
-    //public static final String CASSANDRA_HOME = "/root/software/apache-cassandra-1.0.6";
+    // public static final String CASSANDRA_HOME =
+    // "/root/software/apache-cassandra-1.0.6";
     public static final String CASSANDRA_HOME = "/usr/local/apache-cassandra-1.1.2";
 }

@@ -20,79 +20,91 @@ import javax.persistence.Embeddable;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
 
 @Embeddable
-public class ProfessionalDataDTO {
-	
-	@Column(name="degree")
-	private String degree;
-	
-	@Column(name="experience")
-	private String experience;
-	
-	@Column(name="company")
-	private String company;
-	
-	@Column(name="primary_skill")
-	private String primarySkill;
+public class ProfessionalDataDTO
+{
 
-	/**
-	 * @return the degree
-	 */
-	public String getDegree() {
-		return degree;
-	}
+    @Column(name = "degree")
+    private String degree;
 
-	/**
-	 * @param degree the degree to set
-	 */
-	public void setDegree(String degree) {
-		this.degree = degree;
-	}
+    @Column(name = "experience")
+    private String experience;
 
-	/**
-	 * @return the experience
-	 */
-	public String getExperience() {
-		return experience;
-	}
+    @Column(name = "company")
+    private String company;
 
-	/**
-	 * @param experience the experience to set
-	 */
-	public void setExperience(String experience) {
-		this.experience = experience;
-	}
+    @Column(name = "primary_skill")
+    private String primarySkill;
 
-	/**
-	 * @return the company
-	 */
-	public String getCompany() {
-		return company;
-	}
+    /**
+     * @return the degree
+     */
+    public String getDegree()
+    {
+        return degree;
+    }
 
-	/**
-	 * @param company the company to set
-	 */
-	public void setCompany(String company) {
-		this.company = company;
-	}
+    /**
+     * @param degree
+     *            the degree to set
+     */
+    public void setDegree(String degree)
+    {
+        this.degree = degree;
+    }
 
-	/**
-	 * @return the primarySkill
-	 */
-	public String getPrimarySkill() {
-		return primarySkill;
-	}
+    /**
+     * @return the experience
+     */
+    public String getExperience()
+    {
+        return experience;
+    }
 
-	/**
-	 * @param primarySkill the primarySkill to set
-	 */
-	public void setPrimarySkill(String primarySkill) {
-		this.primarySkill = primarySkill;
-	}
-	
+    /**
+     * @param experience
+     *            the experience to set
+     */
+    public void setExperience(String experience)
+    {
+        this.experience = experience;
+    }
+
+    /**
+     * @return the company
+     */
+    public String getCompany()
+    {
+        return company;
+    }
+
+    /**
+     * @param company
+     *            the company to set
+     */
+    public void setCompany(String company)
+    {
+        this.company = company;
+    }
+
+    /**
+     * @return the primarySkill
+     */
+    public String getPrimarySkill()
+    {
+        return primarySkill;
+    }
+
+    /**
+     * @param primarySkill
+     *            the primarySkill to set
+     */
+    public void setPrimarySkill(String primarySkill)
+    {
+        this.primarySkill = primarySkill;
+    }
 
 }

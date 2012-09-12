@@ -22,61 +22,71 @@ import me.prettyprint.hector.api.factory.HFactory;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
-public class HectorBaseDao {
-	protected static StringSerializer stringSerializer;
+public class HectorBaseDao
+{
+    protected static StringSerializer stringSerializer;
 
-	protected Cluster cluster;
-	protected Keyspace keyspace;
+    protected Cluster cluster;
 
-	protected static final String CLUSTER = "hectorpoccluster";
-	protected static final String HOST = "localhost";
-	protected static final String PORT = "9160";
-	protected static final String KEYSPACE = "HectorKeyspace";
-	protected static final String COLUMN_FAMILY_USER = "User";
-	protected static final String COLUMN_FAMILY_PERSON = "Person";
-	protected static final String SUPER_COLUMN_PERSONAL_DATA = "personal_data";
-	protected static final String SUPER_COLUMN_PROFESSIONAL_DATA = "professional_data";
-	
+    protected Keyspace keyspace;
 
-	protected static final int REPLICATION_FACTOR = 1;
-	
-	protected void startup() {
-		if (cluster == null) {
-			cluster = HFactory.getOrCreateCluster(CLUSTER, HOST + ":" + PORT);
-			keyspace = HFactory.createKeyspace(KEYSPACE, cluster);
-		}/*
-		stringSerializer = StringSerializer.get();
-		cluster = HFactory.getOrCreateCluster(CLUSTER, HOST + ":" + PORT);
+    protected static final String CLUSTER = "hectorpoccluster";
 
-		KeyspaceDefinition keyspaceDef = cluster.describeKeyspace(KEYSPACE);
+    protected static final String HOST = "localhost";
 
-		// If keyspace does not exist, the CFs don't exist either. => create
-		// them.
-		if (keyspaceDef == null) {
-			createSchema();
-		}
+    protected static final String PORT = "9160";
 
-		keyspace = HFactory.createKeyspace(KEYSPACE, cluster);
-	*/}
-	
-	protected void shutdown() {
-//		cluster.getConnectionManager().shutdown();
-	}
-	
-	private void createSchema() {/*
+    protected static final String KEYSPACE = "HectorKeyspace";
 
-		ColumnFamilyDefinition cfDef = HFactory.createColumnFamilyDefinition(
-				KEYSPACE, COLUMN_FAMILY_USER, ComparatorType.BYTESTYPE);
+    protected static final String COLUMN_FAMILY_USER = "User";
 
-		KeyspaceDefinition newKeyspace = HFactory.createKeyspaceDefinition(
-				KEYSPACE, ThriftKsDef.DEF_STRATEGY_CLASS, REPLICATION_FACTOR,
-				Arrays.asList(cfDef));
+    protected static final String COLUMN_FAMILY_PERSON = "Person";
 
-		// Add the schema to the cluster.
-		// "true" as the second param means that Hector will block until all
-		// nodes see the change.
-		cluster.addKeyspace(newKeyspace, true);
-	*/}
+    protected static final String SUPER_COLUMN_PERSONAL_DATA = "personal_data";
+
+    protected static final String SUPER_COLUMN_PROFESSIONAL_DATA = "professional_data";
+
+    protected static final int REPLICATION_FACTOR = 1;
+
+    protected void startup()
+    {
+        if (cluster == null)
+        {
+            cluster = HFactory.getOrCreateCluster(CLUSTER, HOST + ":" + PORT);
+            keyspace = HFactory.createKeyspace(KEYSPACE, cluster);
+        }/*
+          * stringSerializer = StringSerializer.get(); cluster =
+          * HFactory.getOrCreateCluster(CLUSTER, HOST + ":" + PORT);
+          * 
+          * KeyspaceDefinition keyspaceDef = cluster.describeKeyspace(KEYSPACE);
+          * 
+          * // If keyspace does not exist, the CFs don't exist either. => create
+          * // them. if (keyspaceDef == null) { createSchema(); }
+          * 
+          * keyspace = HFactory.createKeyspace(KEYSPACE, cluster);
+          */
+    }
+
+    protected void shutdown()
+    {
+        // cluster.getConnectionManager().shutdown();
+    }
+
+    private void createSchema()
+    {/*
+      * 
+      * ColumnFamilyDefinition cfDef = HFactory.createColumnFamilyDefinition(
+      * KEYSPACE, COLUMN_FAMILY_USER, ComparatorType.BYTESTYPE);
+      * 
+      * KeyspaceDefinition newKeyspace = HFactory.createKeyspaceDefinition(
+      * KEYSPACE, ThriftKsDef.DEF_STRATEGY_CLASS, REPLICATION_FACTOR,
+      * Arrays.asList(cfDef));
+      * 
+      * // Add the schema to the cluster. // "true" as the second param means
+      * that Hector will block until all // nodes see the change.
+      * cluster.addKeyspace(newKeyspace, true);
+      */
+    }
 }

@@ -19,32 +19,31 @@ import java.util.List;
 
 import com.impetus.kunderaperf.dto.UserDTO;
 
-
 /**
  * @author amresh.singh
- *
+ * 
  */
-public interface UserDao {
-	
-	public void init();
-	
-	public void insertUsers(List<UserDTO> users, boolean isBulk);
+public interface UserDao
+{
 
-	public void insertUser(UserDTO user);
+    public void init();
 
-	public void updateUser(UserDTO userDTO);
-	
-	public void findUserById(String userId);
+    public void insertUsers(List<UserDTO> users, boolean isBulk);
 
-        public void findAllUsers();
+    public void insertUser(UserDTO user);
 
-        public void findUsersByIds(String[] userIds);
-	
-	public void findUserByUserName(String userName);
-	
-	public void deleteUser(String userId);
-	
-	public void cleanup();
-	
+    public void updateUser(UserDTO userDTO);
+
+    public UserDTO findUserById(String userId);
+
+    public void findAllUsers();
+
+    public void findUsersByIds(String[] userIds);
+
+    public void findUserByUserName(String userName);
+
+    public void deleteUser(String userId);
+
+    public void cleanup();
 
 }

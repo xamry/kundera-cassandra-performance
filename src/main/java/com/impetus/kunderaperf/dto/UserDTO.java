@@ -22,81 +22,92 @@ import javax.persistence.Table;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
 
 @Entity
 @Table(name = "User", schema = "KunderaKeyspace@perfcassandra")
-public class UserDTO {
-	
-	@Id
-	private String userId;
-	
-	@Column(name="user_name")
-	private String userName;
-	
-	@Column(name="password")
-	private String password;
-	
-	@Column(name="relation")
-	private String relationshipStatus;
-	
-	/**
-	 * @return the userId
-	 */
-	public String getUserId() {
-		return userId;
-	}
+public class UserDTO
+{
 
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    @Id
+    private String userId;
 
-	/**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
+    @Column(name = "user_name")
+    private String userName;
 
-	/**
-	 * @param userName the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    @Column(name = "password")
+    private String password;
 
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
+    @Column(name = "relation")
+    private String relationshipStatus;
 
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * @return the userId
+     */
+    public String getUserId()
+    {
+        return userId;
+    }
 
-	/**
-	 * @return the relationshipStatus
-	 */
-	public String getRelationshipStatus() {
-		return relationshipStatus;
-	}
+    /**
+     * @param userId
+     *            the userId to set
+     */
+    public void setUserId(String userId)
+    {
+        this.userId = userId;
+    }
 
-	/**
-	 * @param relationshipStatus the relationshipStatus to set
-	 */
-	public void setRelationshipStatus(String relationshipStatus) {
-		this.relationshipStatus = relationshipStatus;
-	}
+    /**
+     * @return the userName
+     */
+    public String getUserName()
+    {
+        return userName;
+    }
 
-	
+    /**
+     * @param userName
+     *            the userName to set
+     */
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword()
+    {
+        return password;
+    }
+
+    /**
+     * @param password
+     *            the password to set
+     */
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    /**
+     * @return the relationshipStatus
+     */
+    public String getRelationshipStatus()
+    {
+        return relationshipStatus;
+    }
+
+    /**
+     * @param relationshipStatus
+     *            the relationshipStatus to set
+     */
+    public void setRelationshipStatus(String relationshipStatus)
+    {
+        this.relationshipStatus = relationshipStatus;
+    }
 
 }

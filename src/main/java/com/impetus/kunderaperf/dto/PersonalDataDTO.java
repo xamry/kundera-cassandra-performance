@@ -20,78 +20,91 @@ import javax.persistence.Embeddable;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
 
 @Embeddable
-public class PersonalDataDTO {
-	
-	@Column(name="login_id")
-	private String loginId;
-	
-	@Column(name="first_name")
-	private String firstName;
-	
-	@Column(name="last_name")
-	private String lastName;
-	
-	@Column(name="country")
-	private String country;	
+public class PersonalDataDTO
+{
 
-	/**
-	 * @return the loginId
-	 */
-	public String getLoginId() {
-		return loginId;
-	}
+    @Column(name = "login_id")
+    private String loginId;
 
-	/**
-	 * @param loginId the loginId to set
-	 */
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
-	}
+    @Column(name = "first_name")
+    private String firstName;
 
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
+    @Column(name = "last_name")
+    private String lastName;
 
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    @Column(name = "country")
+    private String country;
 
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
+    /**
+     * @return the loginId
+     */
+    public String getLoginId()
+    {
+        return loginId;
+    }
 
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    /**
+     * @param loginId
+     *            the loginId to set
+     */
+    public void setLoginId(String loginId)
+    {
+        this.loginId = loginId;
+    }
 
-	/**
-	 * @return the country
-	 */
-	public String getCountry() {
-		return country;
-	}
+    /**
+     * @return the firstName
+     */
+    public String getFirstName()
+    {
+        return firstName;
+    }
 
-	/**
-	 * @param country the country to set
-	 */
-	public void setCountry(String country) {
-		this.country = country;
-	}	
+    /**
+     * @param firstName
+     *            the firstName to set
+     */
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
+
+    /**
+     * @return the lastName
+     */
+    public String getLastName()
+    {
+        return lastName;
+    }
+
+    /**
+     * @param lastName
+     *            the lastName to set
+     */
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+    }
+
+    /**
+     * @return the country
+     */
+    public String getCountry()
+    {
+        return country;
+    }
+
+    /**
+     * @param country
+     *            the country to set
+     */
+    public void setCountry(String country)
+    {
+        this.country = country;
+    }
 
 }

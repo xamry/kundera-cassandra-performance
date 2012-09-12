@@ -16,101 +16,160 @@
 package com.impetus.kunderaperf.dao.user;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.cassandra.thrift.Column;
+import org.apache.cassandra.thrift.ColumnOrSuperColumn;
+import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.scale7.cassandra.pelops.Bytes;
 import org.scale7.cassandra.pelops.Mutator;
 import org.scale7.cassandra.pelops.Pelops;
+import org.scale7.cassandra.pelops.Selector;
 import org.scale7.cassandra.pelops.exceptions.PelopsException;
 
+import com.impetus.client.cassandra.pelops.PelopsUtils;
+import com.impetus.kundera.property.PropertyAccessorHelper;
 import com.impetus.kunderaperf.dao.PelopsBaseDao;
 import com.impetus.kunderaperf.dto.UserDTO;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
-public class UserDaoPelopsImpl extends PelopsBaseDao implements UserDao {
-	
-	
+public class UserDaoPelopsImpl extends PelopsBaseDao implements UserDao
+{
 
-	@Override
-	public void init() {
-		startup();
-        
-	}
+    @Override
+    public void init()
+    {
+        startup();
 
-	@Override
-	public void insertUsers(List<UserDTO> users, boolean isBulk) {
-		long t1 = System.currentTimeMillis();		
-		
-	
-		for(UserDTO user : users) {
-			insertUser(user);
-		}	
-		
-		
-//		long t2 = System.currentTimeMillis();
-//		System.out.println("Pelops Performance: insertUsers(" + users.size()
-//				+ ")>>>\t" + (t2 - t1));
-	}
-	
-	public void insertUser(UserDTO user) {
-		try {
-			Mutator mutator = Pelops.createMutator(getPoolName());
-			List<Column> columns = new ArrayList<Column>();
-			
-			long currentTime = System.currentTimeMillis();
-			
-			Column nameColumn = new Column();
-			nameColumn.setName("user_name".getBytes("utf-8"));
-			nameColumn.setValue(user.getUserName().getBytes("utf-8"));
-			nameColumn.setTimestamp(currentTime);
-			columns.add(nameColumn);
-			
-			Column passwordColumn = new Column();
-			passwordColumn.setName("password".getBytes("utf-8"));
-			passwordColumn.setValue(user.getPassword().getBytes("utf-8"));
-			passwordColumn.setTimestamp(currentTime);
-			columns.add(passwordColumn);
-			
-			Column relationColumn = new Column();
-			relationColumn.setName("relation".getBytes("utf-8"));
-			relationColumn.setValue(user.getRelationshipStatus().getBytes("utf-8"));
-			relationColumn.setTimestamp(currentTime);
-			columns.add(relationColumn);				
-			
-			
-			mutator.writeColumns(COLUMN_FAMILY, user.getUserId() , columns);
-			mutator.execute(ConsistencyLevel.ONE);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (PelopsException e) {
-			e.printStackTrace();
-		}
-	}
+    }
 
-	@Override
-	public void updateUser(UserDTO userDTO) {
-	}
+    @Override
+    public void insertUsers(List<UserDTO> users, boolean isBulk)
+    {
+        long t1 = System.currentTimeMillis();
 
-	@Override
-	public void findUserById(String userId) {
-	}
+        for (UserDTO user : users)
+        {
+            insertUser(user);
+        }
 
-	@Override
-	public void findUserByUserName(String userName) {
-	}
+        // long t2 = System.currentTimeMillis();
+        // System.out.println("Pelops Performance: insertUsers(" + users.size()
+        // + ")>>>\t" + (t2 - t1));
+    }
 
-	@Override
-	public void deleteUser(String userId) {
-	}
+    public void insertUser(UserDTO user)
+    {
+        try
+        {
+            Mutator mutator = Pelops.createMutator(getPoolName());
+            List<Column> columns = new ArrayList<Column>();
 
-	@Override
-	public void cleanup() {
-		shutdown();
-	}
-	
+            long currentTime = System.currentTimeMillis();
+
+            Column nameColumn = new Column();
+            nameColumn.setName("user_name".getBytes("utf-8"));
+            nameColumn.setValue(user.getUserName().getBytes("utf-8"));
+            nameColumn.setTimestamp(currentTime);
+            columns.add(nameColumn);
+
+            Column passwordColumn = new Column();
+            passwordColumn.setName("password".getBytes("utf-8"));
+            passwordColumn.setValue(user.getPassword().getBytes("utf-8"));
+            passwordColumn.setTimestamp(currentTime);
+            columns.add(passwordColumn);
+
+            Column relationColumn = new Column();
+            relationColumn.setName("relation".getBytes("utf-8"));
+            relationColumn.setValue(user.getRelationshipStatus().getBytes("utf-8"));
+            relationColumn.setTimestamp(currentTime);
+            columns.add(relationColumn);
+
+            mutator.writeColumns(COLUMN_FAMILY, user.getUserId(), columns);
+            mutator.execute(ConsistencyLevel.ONE);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        catch (PelopsException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateUser(UserDTO userDTO)
+    {
+    }
+
+    @Override
+    public UserDTO findUserById(String userId)
+    {
+        Selector selector = Pelops.createSelector(getPoolName());
+        List<ByteBuffer> rowKeys = new ArrayList<ByteBuffer>(1);
+        rowKeys.add(ByteBuffer.wrap(PropertyAccessorHelper.toBytes(userId, String.class)));
+
+        List<Column> columns = selector.getColumnsFromRow(COLUMN_FAMILY, Bytes.fromUTF8(userId), false,
+                ConsistencyLevel.ONE);
+        UserDTO user = new UserDTO();
+        user.setUserId(userId);
+        for (Column column : columns)
+        {
+            String columnName = Bytes.toUTF8(column.getName());
+            String columnValue = Bytes.toUTF8(column.getValue());
+
+            if ("user_name".equals(columnName))
+            {
+                user.setUserName(columnValue);
+            }
+            else if("password".equals(columnName))
+            {
+                user.setPassword(columnValue);
+            }
+            else if("relation".equals(columnName))
+            {
+                user.setRelationshipStatus(columnValue);            
+            }
+        }
+        return user;
+    }
+
+    @Override
+    public void findAllUsers()
+    {
+    }
+
+    @Override
+    public void findUsersByIds(String[] userIds)
+    {
+        for (String userId : userIds)
+        {
+            findUserById(userId);
+        }
+    }
+
+    @Override
+    public void findUserByUserName(String userName)
+    {
+    }
+
+    @Override
+    public void deleteUser(String userId)
+    {
+    }
+
+    @Override
+    public void cleanup()
+    {
+        shutdown();
+    }
+
 }

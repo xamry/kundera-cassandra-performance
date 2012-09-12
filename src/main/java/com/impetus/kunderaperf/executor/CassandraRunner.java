@@ -49,7 +49,7 @@ import com.impetus.kunderaperf.Constants;
  * @version 1.0
  */
 public class CassandraRunner
-{   
+{
 
     private static Runtime runtime = Runtime.getRuntime();
 
@@ -70,15 +70,19 @@ public class CassandraRunner
     {
         // postBuild();
         int i;
-        String b[] = { "1"/*, "1000", "4000", "40000", "100000", "1000000"*/
-         };
-         String c[] = { "1"/*, "10", "100", "1000", "10000", "40000", "50000",
-         "100000"*/ };
-         String cb[] = { "10"/*, "100", "1000" */};
+        String b[] = { "1"/* , "1000", "4000", "40000", "100000", "1000000" */
+        };
+        String c[] = { "1"/*
+                           * , "10", "100", "1000", "10000", "40000", "50000",
+                           * "100000"
+                           */};
+        String cb[] = { "10"/* , "100", "1000" */};
 
-        /*String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
-        String c[] = { "1", "10", "100", "1000", "10000", "40000", "50000", "100000" };
-        String cb[] = { "10", "100", "1000" };*/
+        /*
+         * String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
+         * String c[] = { "1", "10", "100", "1000", "10000", "40000", "50000",
+         * "100000" }; String cb[] = { "10", "100", "1000" };
+         */
 
         String[] clients = { "kundera", "pelops", "hector" };
         String runType[] = { "b", "c", "cb" };
@@ -103,7 +107,7 @@ public class CassandraRunner
                         try
                         {
                             createKeysapce(keySpaceMapper.get(client));
-                            KunderaPerformanceRunner.main(new String[] {new String(b[i]), client, type,  operations});
+                            KunderaPerformanceRunner.main(new String[] { new String(b[i]), client, type, operations });
                             dropKeyspace(keySpaceMapper.get(client));
                             // stopCassandraServer();
                         }
@@ -122,7 +126,8 @@ public class CassandraRunner
                         {
                             // startCassandraServer(args[2]);
                             createKeysapce(keySpaceMapper.get(client));
-                            KunderaPerformanceRunner.main(new String[] { "1", client, type, new String(c[i]), operations});
+                            KunderaPerformanceRunner.main(new String[] { "1", client, type, new String(c[i]),
+                                    operations });
                             dropKeyspace(keySpaceMapper.get(client));
                             // stopCassandraServer();
                         }
@@ -142,7 +147,8 @@ public class CassandraRunner
                         {
                             // startCassandraServer(args[2]);
                             createKeysapce(keySpaceMapper.get(client));
-                            KunderaPerformanceRunner.main(new String[] { "1000", client, type, new String(cb[i]), operations});
+                            KunderaPerformanceRunner.main(new String[] { "1000", client, type, new String(cb[i]),
+                                    operations });
                             dropKeyspace(keySpaceMapper.get(client));
                             // stopCassandraServer();
                         }
@@ -274,10 +280,10 @@ public class CassandraRunner
 
             cfDefs.add(cfDef);
             ksDef = new KsDef(keyspace, "org.apache.cassandra.locator.SimpleStrategy", cfDefs);
-            //ksDef.setReplication_factor(1);
+            // ksDef.setReplication_factor(1);
             Map<String, String> strategyOptions = new HashMap<String, String>();
             strategyOptions.put("replication_factor", "1");
-            
+
             ksDef.setStrategy_options(strategyOptions);
             if (cassandra_client == null)
             {

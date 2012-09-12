@@ -96,22 +96,23 @@ public class UserDaoKunderaImpl extends KunderaBaseDao implements UserDao
     }
 
     @Override
-    public void findUserById(String userId)
+    public UserDTO findUserById(String userId)
     {
         EntityManager em = emf.createEntityManager();
         UserDTO user = em.find(UserDTO.class, userId);
         em.close();
+        return user;
     }
 
     @Override
     public void findUsersByIds(String[] userIds)
-    {       
-        
-        for(String userId : userIds)
+    {
+
+        for (String userId : userIds)
         {
             findUserById(userId);
-        }        
-    }   
+        }
+    }
 
     @Override
     public void findAllUsers()

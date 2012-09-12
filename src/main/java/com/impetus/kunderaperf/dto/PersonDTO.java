@@ -23,63 +23,72 @@ import javax.persistence.Table;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
 
 @Entity
 @Table(name = "Person", schema = "KunderaKeyspace")
-public class PersonDTO {
-	
-	@Id
-	private String personId;
-	
-	@Embedded
-	private PersonalDataDTO personalData;
-	
-	@Embedded
-	private ProfessionalDataDTO professionalData;	
-	
+public class PersonDTO
+{
 
-	/**
-	 * @return the personId
-	 */
-	public String getPersonId() {
-		return personId;
-	}
+    @Id
+    private String personId;
 
-	/**
-	 * @param personId the personId to set
-	 */
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    @Embedded
+    private PersonalDataDTO personalData;
 
-	/**
-	 * @return the personalData
-	 */
-	public PersonalDataDTO getPersonalData() {
-		return personalData;
-	}
+    @Embedded
+    private ProfessionalDataDTO professionalData;
 
-	/**
-	 * @param personalData the personalData to set
-	 */
-	public void setPersonalData(PersonalDataDTO personalData) {
-		this.personalData = personalData;
-	}
+    /**
+     * @return the personId
+     */
+    public String getPersonId()
+    {
+        return personId;
+    }
 
-	/**
-	 * @return the professionalData
-	 */
-	public ProfessionalDataDTO getProfessionalData() {
-		return professionalData;
-	}
+    /**
+     * @param personId
+     *            the personId to set
+     */
+    public void setPersonId(String personId)
+    {
+        this.personId = personId;
+    }
 
-	/**
-	 * @param professionalData the professionalData to set
-	 */
-	public void setProfessionalData(ProfessionalDataDTO professionalData) {
-		this.professionalData = professionalData;
-	}	
+    /**
+     * @return the personalData
+     */
+    public PersonalDataDTO getPersonalData()
+    {
+        return personalData;
+    }
+
+    /**
+     * @param personalData
+     *            the personalData to set
+     */
+    public void setPersonalData(PersonalDataDTO personalData)
+    {
+        this.personalData = personalData;
+    }
+
+    /**
+     * @return the professionalData
+     */
+    public ProfessionalDataDTO getProfessionalData()
+    {
+        return professionalData;
+    }
+
+    /**
+     * @param professionalData
+     *            the professionalData to set
+     */
+    public void setProfessionalData(ProfessionalDataDTO professionalData)
+    {
+        this.professionalData = professionalData;
+    }
 
 }

@@ -21,33 +21,37 @@ import org.scale7.cassandra.pelops.Pelops;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
-public class PelopsBaseDao {
-	protected static final String HOST = "localhost";
-	protected static final String PORT = "9160";
-	protected static final String KEYSPACE = "PelopsKeyspace";
-	protected static final String COLUMN_FAMILY = "User";
-	
-	public void startup()
-	{
-		if(Pelops.getDbConnPool(getPoolName()) ==null)
-		{
-			String[] contactNodes = new String[]{HOST};
-			Cluster cluster = new Cluster(contactNodes, new IConnection.Config(Integer.parseInt(PORT), true, -1), false);		 
-			Pelops.addPool(getPoolName(), cluster, KEYSPACE);
-		}
-	}
-	
-	public void shutdown() 
-	{
-		//Pelops.shutdown();
-		
-	}
-	
-	
-	protected String getPoolName() {
-		return HOST + ":" + PORT + ":" + KEYSPACE;
-	}
+public class PelopsBaseDao
+{
+    protected static final String HOST = "localhost";
+
+    protected static final String PORT = "9160";
+
+    protected static final String KEYSPACE = "PelopsKeyspace";
+
+    protected static final String COLUMN_FAMILY = "User";
+
+    public void startup()
+    {
+        if (Pelops.getDbConnPool(getPoolName()) == null)
+        {
+            String[] contactNodes = new String[] { HOST };
+            Cluster cluster = new Cluster(contactNodes, new IConnection.Config(Integer.parseInt(PORT), true, -1), false);
+            Pelops.addPool(getPoolName(), cluster, KEYSPACE);
+        }
+    }
+
+    public void shutdown()
+    {
+        // Pelops.shutdown();
+
+    }
+
+    protected String getPoolName()
+    {
+        return HOST + ":" + PORT + ":" + KEYSPACE;
+    }
 
 }

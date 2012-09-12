@@ -20,84 +20,74 @@ import javax.persistence.Persistence;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
-public class KunderaBaseDao {
-    protected EntityManagerFactory emf;    
-    
-    protected static final String PERSISTENCE_UNIT = "perfcassandra";
-//    protected static final String HOST = "localhost";
-//    protected static final String PORT = "9160";
-//    protected static final String KEYSPACE = "KunderaKeyspace";
-//    protected static final String COLUMN_FAMILY = "User";
-    
-    protected  void startup() {
-		//Create Schema
-		//createSchema();
-		
-		//Initialize EMF 
-         //		if (emf == null)
-        //{
-            try
-            {
-                emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-    //    }
-//		System.out.println("EMF Created successfully" + emf);
-	}	
-    
-    protected void shutdown() {
-       if(emf !=null)
-      {
-    	emf.close();
-      }
-    }
-    
-    
-/*    private void createSchema() {
-		//Initialize Cassandra Client		
-		TSocket socket = new TSocket(HOST, Integer.parseInt(PORT));
-        TTransport transport = new TFramedTransport(socket);
-        TProtocol protocol = new TBinaryProtocol(transport);
-        Cassandra.Client client = new Cassandra.Client(protocol);
+public class KunderaBaseDao
+{
+    protected EntityManagerFactory emf;
 
+    protected static final String PERSISTENCE_UNIT = "perfcassandra";
+
+    // protected static final String HOST = "localhost";
+    // protected static final String PORT = "9160";
+    // protected static final String KEYSPACE = "KunderaKeyspace";
+    // protected static final String COLUMN_FAMILY = "User";
+
+    protected void startup()
+    {
+        // Create Schema
+        // createSchema();
+
+        // Initialize EMF
+        // if (emf == null)
+        // {
         try
         {
-            socket.open();
+            emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
         }
-        catch (TTransportException e) {
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        // }
+        // System.out.println("EMF Created successfully" + emf);
+    }
+
+    protected void shutdown()
+    {
+        if (emf != null)
+        {
+            emf.close();
         }
-        
-        //Create Schema
-        Class<? extends AbstractReplicationStrategy> simple = SimpleStrategy.class;
-        Map<String, String> ret = new HashMap<String, String>();
-        ret.put("replication_factor", "1");        
-        
-        CfDef users_Def = new CfDef(KEYSPACE, COLUMN_FAMILY);
-        users_Def.setComparator_type("UTF8Type");
-        users_Def.setSubcomparator_type("UTF8Type");
-        users_Def.setDefault_validation_class("UTF8Type");       
+    }
 
-        List<CfDef> cfDefs = new ArrayList<CfDef>();       
-       
-        cfDefs.add(users_Def);      
-
-        KsDef ksDef = new KsDef(KEYSPACE, simple.getCanonicalName(), cfDefs);
-        ksDef.setReplication_factor(1);
-
-        try {
-			client.send_system_add_keyspace(ksDef);
-		} catch (TException e) {
-			e.printStackTrace();
-		}
-	}
-	
-*/}
+    /*
+     * private void createSchema() { //Initialize Cassandra Client TSocket
+     * socket = new TSocket(HOST, Integer.parseInt(PORT)); TTransport transport
+     * = new TFramedTransport(socket); TProtocol protocol = new
+     * TBinaryProtocol(transport); Cassandra.Client client = new
+     * Cassandra.Client(protocol);
+     * 
+     * try { socket.open(); } catch (TTransportException e) {
+     * e.printStackTrace(); } catch (Exception ex) { ex.printStackTrace(); }
+     * 
+     * //Create Schema Class<? extends AbstractReplicationStrategy> simple =
+     * SimpleStrategy.class; Map<String, String> ret = new HashMap<String,
+     * String>(); ret.put("replication_factor", "1");
+     * 
+     * CfDef users_Def = new CfDef(KEYSPACE, COLUMN_FAMILY);
+     * users_Def.setComparator_type("UTF8Type");
+     * users_Def.setSubcomparator_type("UTF8Type");
+     * users_Def.setDefault_validation_class("UTF8Type");
+     * 
+     * List<CfDef> cfDefs = new ArrayList<CfDef>();
+     * 
+     * cfDefs.add(users_Def);
+     * 
+     * KsDef ksDef = new KsDef(KEYSPACE, simple.getCanonicalName(), cfDefs);
+     * ksDef.setReplication_factor(1);
+     * 
+     * try { client.send_system_add_keyspace(ksDef); } catch (TException e) {
+     * e.printStackTrace(); } }
+     */
+}

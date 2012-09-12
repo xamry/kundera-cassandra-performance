@@ -17,20 +17,29 @@ package com.impetus.kunderaperf.dao.user;
 
 /**
  * @author amresh.singh
- *
+ * 
  */
-public class UserDaoFactory {
-//    boolean static done=false;
-	public static UserDao getUserDao(String provider) {
-		if(provider.equalsIgnoreCase("kundera")) {
-			return new UserDaoKunderaImpl();
-		} else if(provider.equalsIgnoreCase("pelops")) {
-			return new UserDaoPelopsImpl();
-		} else if(provider.equalsIgnoreCase("hector")) {
-			return new UserDaoHectorImpl();
-		} else {
-			return null;
-		}
-	}
+public class UserDaoFactory
+{
+    // boolean static done=false;
+    public static UserDao getUserDao(String provider)
+    {
+        if (provider.equalsIgnoreCase("kundera"))
+        {
+            return new UserDaoKunderaImpl();
+        }
+        else if (provider.equalsIgnoreCase("pelops"))
+        {
+            return new UserDaoPelopsImpl();
+        }
+        else if (provider.equalsIgnoreCase("hector"))
+        {
+            return new UserDaoHectorImpl();
+        }
+        else
+        {
+            return null;
+        }
+    }
 
 }
