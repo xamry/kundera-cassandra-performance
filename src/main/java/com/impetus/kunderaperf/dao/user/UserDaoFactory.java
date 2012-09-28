@@ -21,7 +21,6 @@ package com.impetus.kunderaperf.dao.user;
  */
 public class UserDaoFactory
 {
-    // boolean static done=false;
     public static UserDao getUserDao(String provider)
     {
         if (provider.equalsIgnoreCase("kundera"))
@@ -32,6 +31,10 @@ public class UserDaoFactory
         {
             return new UserDaoPelopsImpl();
         }
+        else if (provider.equalsIgnoreCase("thrift"))
+        {
+            return new UserDaoThriftImpl();
+        }
         else if (provider.equalsIgnoreCase("hector"))
         {
             return new UserDaoHectorImpl();
@@ -41,5 +44,4 @@ public class UserDaoFactory
             return null;
         }
     }
-
 }

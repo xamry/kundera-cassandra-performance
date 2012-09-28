@@ -38,9 +38,6 @@ public class UserDaoKunderaImpl extends KunderaBaseDao implements UserDao
     @Override
     public void insertUsers(List<UserDTO> users, boolean isBulk)
     {
-        // System.out.println("Inserting users");
-        // long t1 = System.currentTimeMillis();
-
         if (isBulk)
         {
             EntityManager em = emf.createEntityManager();
@@ -68,9 +65,6 @@ public class UserDaoKunderaImpl extends KunderaBaseDao implements UserDao
         }
         users.clear();
         users = null;
-        // long t2 = System.currentTimeMillis();
-        // System.out.println("Kundera Performance: insertUsers(" + users.size()
-        // + ")>>>\t" + (t2 - t1));
     }
 
     /**
@@ -81,9 +75,6 @@ public class UserDaoKunderaImpl extends KunderaBaseDao implements UserDao
      */
     public void insertUser(UserDTO user)
     {
-        // init();
-        // System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"+emf +
-        // ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         EntityManager em = emf.createEntityManager();
         em.persist(user);
         em.close();

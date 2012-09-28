@@ -53,16 +53,10 @@ public class UserDaoPelopsImpl extends PelopsBaseDao implements UserDao
     @Override
     public void insertUsers(List<UserDTO> users, boolean isBulk)
     {
-        long t1 = System.currentTimeMillis();
-
         for (UserDTO user : users)
         {
             insertUser(user);
         }
-
-        // long t2 = System.currentTimeMillis();
-        // System.out.println("Pelops Performance: insertUsers(" + users.size()
-        // + ")>>>\t" + (t2 - t1));
     }
 
     public void insertUser(UserDTO user)

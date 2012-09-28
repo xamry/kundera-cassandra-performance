@@ -70,13 +70,13 @@ public class CassandraRunner
     {
         // postBuild();
         int i;
-        String b[] = { "1"/* , "1000", "4000", "40000", "100000", "1000000" */
+        String b[] = { "1", "1000", "4000", "40000"/*, "100000", "1000000"*/ 
         };
-        String c[] = { "1"/*
-                           * , "10", "100", "1000", "10000", "40000", "50000",
-                           * "100000"
-                           */};
-        String cb[] = { "10"/* , "100", "1000" */};
+        String c[] = { "1", "10", "100" 
+                           ,"1000", "10000"/*, "40000", "50000",
+                           "100000"*/
+                           };
+        String cb[] = { "10", "100"/*, "1000"*/};
 
         /*
          * String b[] = { "1", "1000", "4000", "40000", "100000", "1000000" };
@@ -84,14 +84,16 @@ public class CassandraRunner
          * "100000" }; String cb[] = { "10", "100", "1000" };
          */
 
-        String[] clients = { "kundera", "pelops", "hector" };
+        String[] clients = { "kundera", "pelops", "thrift", "hector"};
         String runType[] = { "b", "c", "cb" };
         String operations = "r{userName|=|Amresh,userName|>|Am}";
+        //String operations = null;
 
         Map<String, String> keySpaceMapper = new HashMap<String, String>(3);
-        keySpaceMapper.put("pelops", "PelopsKeyspace");
-        keySpaceMapper.put("hector", "HectorKeyspace");
-        keySpaceMapper.put("kundera", "KunderaKeyspace");
+        keySpaceMapper.put("pelops", Constants.PELOPS_KEYSPACE);
+        keySpaceMapper.put("thrift", Constants.THRIFT_KEYSPACE);
+        keySpaceMapper.put("hector", Constants.HECTOR_KEYSPACE);
+        keySpaceMapper.put("kundera", Constants.KUNDERA_KEYSPACE);
 
         // startCassandraServer("/home/impadmin/vivek/apache-cassandra-1.0.6/bin/cassandra");
         startCassandraServer(Constants.CASSANDRA_HOME + "/bin/cassandra");
@@ -350,7 +352,7 @@ public class CassandraRunner
 
     private static void initiateClient()
     {
-        TSocket socket = new TSocket("localhost", 9160);
+        TSocket socket = new TSocket(Constants.CASSANDRA_HOST, 9160);
         TTransport transport = new TFramedTransport(socket);
         TProtocol protocol = new TBinaryProtocol(transport);
         cassandra_client = new Cassandra.Client(protocol);

@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.impetus.kunderaperf.dao;
 
+import com.impetus.kunderaperf.Constants;
+
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.Keyspace;
@@ -34,15 +36,15 @@ public class HectorBaseDao
 
     protected static final String CLUSTER = "hectorpoccluster";
 
-    protected static final String HOST = "localhost";
+    protected static final String HOST = Constants.CASSANDRA_HOST;
 
-    protected static final String PORT = "9160";
+    protected static final String PORT = Constants.CASSANDRA_PORT;
 
-    protected static final String KEYSPACE = "HectorKeyspace";
+    protected static final String KEYSPACE = Constants.HECTOR_KEYSPACE;
 
-    protected static final String COLUMN_FAMILY_USER = "User";
+    protected static final String COLUMN_FAMILY_USER = Constants.COLUMN_FAMILY_USER;
 
-    protected static final String COLUMN_FAMILY_PERSON = "Person";
+    protected static final String COLUMN_FAMILY_PERSON = Constants.COLUMN_FAMILY_PERSON;
 
     protected static final String SUPER_COLUMN_PERSONAL_DATA = "personal_data";
 

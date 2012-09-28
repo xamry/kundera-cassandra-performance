@@ -19,19 +19,23 @@ import org.scale7.cassandra.pelops.Cluster;
 import org.scale7.cassandra.pelops.IConnection;
 import org.scale7.cassandra.pelops.Pelops;
 
+import com.impetus.kunderaperf.Constants;
+
 /**
  * @author amresh.singh
  * 
  */
 public class PelopsBaseDao
 {
-    protected static final String HOST = "localhost";
+    
 
-    protected static final String PORT = "9160";
+    protected static final String HOST = Constants.CASSANDRA_HOST;
 
-    protected static final String KEYSPACE = "PelopsKeyspace";
+    protected static final String PORT = Constants.CASSANDRA_PORT;
 
-    protected static final String COLUMN_FAMILY = "User";
+    protected static final String KEYSPACE = Constants.PELOPS_KEYSPACE;
+
+    protected static final String COLUMN_FAMILY = Constants.COLUMN_FAMILY_USER;
 
     public void startup()
     {

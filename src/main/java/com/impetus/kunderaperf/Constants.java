@@ -25,4 +25,14 @@ public class Constants
     // public static final String CASSANDRA_HOME =
     // "/root/software/apache-cassandra-1.0.6";
     public static final String CASSANDRA_HOME = "/usr/local/apache-cassandra-1.1.2";
+    public static final String CASSANDRA_HOST = "localhost";
+    public static final String CASSANDRA_PORT = "9160";
+    
+    public static final String PELOPS_KEYSPACE = "PelopsKeyspace";
+    public static final String THRIFT_KEYSPACE = "ThriftKeyspace";
+    public static final String KUNDERA_KEYSPACE = "KunderaKeyspace";
+    public static final String HECTOR_KEYSPACE = "HectorKeyspace";
+    
+    public static final String COLUMN_FAMILY_USER = "User";
+    public static final String COLUMN_FAMILY_PERSON = "Person";
 }
